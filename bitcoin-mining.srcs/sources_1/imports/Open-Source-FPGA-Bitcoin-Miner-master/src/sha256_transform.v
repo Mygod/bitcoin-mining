@@ -126,7 +126,7 @@ module sha256_digester (clk, k, rx_w, rx_state, tx_w, tx_state);
 	
 	reg [511:0] intermediate_w;
 	reg [255:0] intermediate_state;
-    reg [31:0] e0_w, e1_w, ch_w, maj_w, s0_w, s1_w;
+    reg [31:0] e0_r, e1_r, ch_r, maj_r, s0_r, s1_r, t1_r;
 
     function [31:0] e0 (input [31:0] x);
         e0 = {x[1:0],x[31:2]} ^ {x[12:0],x[31:13]} ^ {x[21:0],x[31:22]};
@@ -153,9 +153,10 @@ module sha256_digester (clk, k, rx_w, rx_state, tx_w, tx_state);
     endfunction
     
 
-	wire [31:0] t1 = intermediate_state[`IDX(7)] + e1_w + ch_w + intermediate_w[31:0] + k;
-	wire [31:0] t2 = e0_w + maj_w;
-	wire [31:0] new_w = s1_w + intermediate_w[319:288] + s0_w + intermediate_w[31:0];
+    wire [31:0] e1_w = e1(rx_state[`IDX(4)]), ch_w = ch(rx_state[`IDX(4)], rx_state[`IDX(5)], rx_state[`IDX(6)]);
+    wire [31:0] t1 = t1_r + ch_r;
+	wire [31:0] t2 = e0_r + maj_r;
+	wire [31:0] new_w = s1_r + intermediate_w[319:288] + s0_r + intermediate_w[31:0];
 	
 
 	always @ (posedge clk)
@@ -163,12 +164,14 @@ module sha256_digester (clk, k, rx_w, rx_state, tx_w, tx_state);
 	    // Cycle 1: Save the states and calculate SHA-256 functions
 	    intermediate_w <= rx_w;
 	    intermediate_state <= rx_state;
-	    e0_w <= e0(rx_state[`IDX(0)]);
-        e1_w <= e1(rx_state[`IDX(4)]);
-        ch_w <= ch(rx_state[`IDX(4)], rx_state[`IDX(5)], rx_state[`IDX(6)]);
-        maj_w <= maj(rx_state[`IDX(0)], rx_state[`IDX(1)], rx_state[`IDX(2)]);
-        s0_w <= s0(rx_w[63:32]);
-        s1_w <= s1(rx_w[479:448]);
+	    e0_r <= e0(rx_state[`IDX(0)]);
+        e1_r <= e1_w;
+        ch_r <= ch_w;
+        maj_r <= maj(rx_state[`IDX(0)], rx_state[`IDX(1)], rx_state[`IDX(2)]);
+        s0_r <= s0(rx_w[63:32]);
+        s1_r <= s1(rx_w[479:448]);
+        
+        t1_r <= rx_state[`IDX(7)] + e1_w + rx_w[31:0] + k;
         
 	
 	    // Cycle 2: Do the remaining work
