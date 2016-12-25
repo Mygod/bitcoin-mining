@@ -35,13 +35,13 @@
     <Option Name="WTVcsLaunchSim" Val="0"/>
     <Option Name="WTRivieraLaunchSim" Val="0"/>
     <Option Name="WTActivehdlLaunchSim" Val="0"/>
-    <Option Name="WTXSimExportSim" Val="2"/>
-    <Option Name="WTModelSimExportSim" Val="2"/>
-    <Option Name="WTQuestaExportSim" Val="2"/>
-    <Option Name="WTIesExportSim" Val="2"/>
-    <Option Name="WTVcsExportSim" Val="2"/>
-    <Option Name="WTRivieraExportSim" Val="2"/>
-    <Option Name="WTActivehdlExportSim" Val="2"/>
+    <Option Name="WTXSimExportSim" Val="3"/>
+    <Option Name="WTModelSimExportSim" Val="3"/>
+    <Option Name="WTQuestaExportSim" Val="3"/>
+    <Option Name="WTIesExportSim" Val="3"/>
+    <Option Name="WTVcsExportSim" Val="3"/>
+    <Option Name="WTRivieraExportSim" Val="3"/>
+    <Option Name="WTActivehdlExportSim" Val="3"/>
     <Option Name="GenerateIPUpgradeLog" Val="TRUE"/>
     <Option Name="XSimRadix" Val="hex"/>
     <Option Name="XSimTimeUnit" Val="ns"/>
@@ -143,6 +143,22 @@
           <Attr Name="UsedIn" Val="implementation"/>
           <Attr Name="UsedIn" Val="simulation"/>
         </FileInfo>
+        <CompFileExtendedInfo CompFileName="hash_clk_gen.xci" FileRelPathName="hash_clk_gen.xml"/>
+        <CompFileExtendedInfo CompFileName="hash_clk_gen.xci" FileRelPathName="hash_clk_gen_ooc.xdc"/>
+        <CompFileExtendedInfo CompFileName="hash_clk_gen.xci" FileRelPathName="hash_clk_gen.xdc"/>
+        <CompFileExtendedInfo CompFileName="hash_clk_gen.xci" FileRelPathName="hash_clk_gen.v"/>
+        <CompFileExtendedInfo CompFileName="hash_clk_gen.xci" FileRelPathName="hash_clk_gen_clk_wiz.v"/>
+        <CompFileExtendedInfo CompFileName="hash_clk_gen.xci" FileRelPathName="mmcm_pll_drp_func_us_pll.vh"/>
+        <CompFileExtendedInfo CompFileName="hash_clk_gen.xci" FileRelPathName="mmcm_pll_drp_func_us_mmcm.vh"/>
+        <CompFileExtendedInfo CompFileName="hash_clk_gen.xci" FileRelPathName="mmcm_pll_drp_func_7s_pll.vh"/>
+        <CompFileExtendedInfo CompFileName="hash_clk_gen.xci" FileRelPathName="mmcm_pll_drp_func_7s_mmcm.vh"/>
+        <CompFileExtendedInfo CompFileName="hash_clk_gen.xci" FileRelPathName="hash_clk_gen.veo"/>
+        <CompFileExtendedInfo CompFileName="hash_clk_gen.xci" FileRelPathName="hash_clk_gen_board.xdc"/>
+        <CompFileExtendedInfo CompFileName="hash_clk_gen.xci" FileRelPathName="doc/clk_wiz_v5_3_changelog.txt"/>
+        <CompFileExtendedInfo CompFileName="hash_clk_gen.xci" FileRelPathName="hash_clk_gen_stub.v"/>
+        <CompFileExtendedInfo CompFileName="hash_clk_gen.xci" FileRelPathName="hash_clk_gen_sim_netlist.v"/>
+        <CompFileExtendedInfo CompFileName="hash_clk_gen.xci" FileRelPathName="hash_clk_gen_stub.vhdl"/>
+        <CompFileExtendedInfo CompFileName="hash_clk_gen.xci" FileRelPathName="hash_clk_gen_sim_netlist.vhdl"/>
       </File>
       <Config>
         <Option Name="TopModule" Val="hash_clk_gen"/>
