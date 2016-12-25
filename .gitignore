@@ -1,0 +1,9 @@
+/django_json_rpc.egg-info/
+/dist/
+/build/
+/*.cache/
+/*.hw/
+/*.ip_user_files/
+/*.runs/
+/*.sim/
+*.pyc
