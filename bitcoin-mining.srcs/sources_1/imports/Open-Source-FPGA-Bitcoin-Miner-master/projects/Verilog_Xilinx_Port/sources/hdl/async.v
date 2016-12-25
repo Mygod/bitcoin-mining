@@ -9,7 +9,7 @@
 //`define SIMULATION   // in this mode, TX outputs one bit per clock cycle
                        // and RX receives one bit per clock cycle (for fast simulations)
 
-`define ClkFrequency 200_000_000
+`define ClkFrequency 119183673
 `define Baud 115200
 
 ////////////////////////////////////////////////////////
