@@ -25,30 +25,6 @@
 
 module fpgaminer_top (osc_clk, RxD, TxD, anode, segment, disp_switch);
 
-	// The LOOP_LOG2 parameter determines how unrolled the SHA-256
-	// calculations are. For example, a setting of 1 will completely
-	// unroll the calculations, resulting in 128 rounds and a large, fast
-	// design.
-	//
-	// A setting of 2 will result in 64 rounds, with half the size and
-	// half the speed. 3 will be 32 rounds, with 1/4th the size and speed.
-	// And so on.
-	//
-	// Valid range: [0, 5]
-`ifdef CONFIG_LOOP_LOG2
-	parameter LOOP_LOG2 = `CONFIG_LOOP_LOG2;
-`else
-	parameter LOOP_LOG2 = 0;
-`endif
-
-	// No need to adjust these parameters
-	localparam [5:0] LOOP = (6'd1 << LOOP_LOG2);
-	// The nonce will always be larger at the time we discover a valid
-	// hash. This is its offset from the nonce that gave rise to the valid
-	// hash (except when LOOP_LOG2 == 0 or 1, where the offset is 131 or
-	// 66 respectively).
-	localparam [31:0] GOLDEN_NONCE_OFFSET = (32'd1 << (7 - LOOP_LOG2)) + 32'd1;
-
 	input osc_clk;
 
 
@@ -71,7 +47,7 @@ module fpgaminer_top (osc_clk, RxD, TxD, anode, segment, disp_switch);
 	reg [5:0] cnt = 6'd0;
 	reg feedback = 1'b0;
 
-	sha256_transform #(.LOOP(LOOP)) uut (
+	sha256_transform #(.LOOP(1)) uut (
 		.clk(hash_clk),
 		.feedback(feedback),
 		.cnt(cnt),
@@ -79,7 +55,7 @@ module fpgaminer_top (osc_clk, RxD, TxD, anode, segment, disp_switch);
 		.rx_input(data),
 		.tx_hash(hash)
 	);
-	sha256_transform #(.LOOP(LOOP)) uut2 (
+	sha256_transform #(.LOOP(1)) uut2 (
 		.clk(hash_clk),
 		.feedback(feedback),
 		.cnt(cnt),
@@ -119,11 +95,11 @@ module fpgaminer_top (osc_clk, RxD, TxD, anode, segment, disp_switch);
 		reg reset = 1'b0;	// NOTE: Reset is not currently used in the actual FPGA; for simulation only.
 	`endif
 
-	assign cnt_next =  reset ? 6'd0 : (LOOP == 1) ? 6'd0 : (cnt + 6'd1) & (LOOP-1);
+	assign cnt_next =  6'd0;
 	// On the first count (cnt==0), load data from previous stage (no feedback)
 	// on 1..LOOP-1, take feedback from current stage
 	// This reduces the throughput by a factor of (LOOP), but also reduces the design size by the same amount
-	assign feedback_next = (LOOP == 1) ? 1'b0 : (cnt_next != {(LOOP_LOG2){1'b0}});
+	assign feedback_next = 1'b0;
 	assign nonce_next =
 		reset ? 32'd0 :
 		feedback_next ? nonce : (nonce + 32'd1);
@@ -154,13 +130,7 @@ module fpgaminer_top (osc_clk, RxD, TxD, anode, segment, disp_switch);
 		is_golden_ticket <= (hash2[255:224] == 32'h00000000) && !feedback_d1;
 		if(is_golden_ticket)
 		begin
-			// TODO: Find a more compact calculation for this
-			if (LOOP == 1)
-				golden_nonce <= nonce - 32'd131;
-			else if (LOOP == 2)
-				golden_nonce <= nonce - 32'd66;
-			else
-				golden_nonce <= nonce - GOLDEN_NONCE_OFFSET;
+			golden_nonce <= nonce - 32'h103;
 
 		   if (!serial_busy) serial_send <= 1;
 		end // if (is_golden_ticket)

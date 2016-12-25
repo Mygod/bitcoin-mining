@@ -123,6 +123,10 @@ module sha256_digester (clk, k, rx_w, rx_state, tx_w, tx_state);
 
 	output reg [511:0] tx_w;
 	output reg [255:0] tx_state;
+	
+	reg [511:0] intermediate_w;
+	reg [255:0] intermediate_state;
+    reg [31:0] e0_w, e1_w, ch_w, maj_w, s0_w, s1_w;
 
     function [31:0] e0 (input [31:0] x);
         e0 = {x[1:0],x[31:2]} ^ {x[12:0],x[31:13]} ^ {x[21:0],x[31:22]};
@@ -149,30 +153,35 @@ module sha256_digester (clk, k, rx_w, rx_state, tx_w, tx_state);
     endfunction
     
 
-	wire [31:0]    e0_w = e0(rx_state[`IDX(0)]),
-	               e1_w = e1(rx_state[`IDX(4)]),
-	               ch_w = ch(rx_state[`IDX(4)], rx_state[`IDX(5)], rx_state[`IDX(6)]),
-	               maj_w = maj(rx_state[`IDX(0)], rx_state[`IDX(1)], rx_state[`IDX(2)]),
-	               s0_w = s0(rx_w[63:32]),
-	               s1_w = s1(rx_w[479:448]);
-
-	wire [31:0] t1 = rx_state[`IDX(7)] + e1_w + ch_w + rx_w[31:0] + k;
+	wire [31:0] t1 = intermediate_state[`IDX(7)] + e1_w + ch_w + intermediate_w[31:0] + k;
 	wire [31:0] t2 = e0_w + maj_w;
-	wire [31:0] new_w = s1_w + rx_w[319:288] + s0_w + rx_w[31:0];
+	wire [31:0] new_w = s1_w + intermediate_w[319:288] + s0_w + intermediate_w[31:0];
 	
 
 	always @ (posedge clk)
 	begin
+	    // Cycle 1: Save the states and calculate SHA-256 functions
+	    intermediate_w <= rx_w;
+	    intermediate_state <= rx_state;
+	    e0_w <= e0(rx_state[`IDX(0)]);
+        e1_w <= e1(rx_state[`IDX(4)]);
+        ch_w <= ch(rx_state[`IDX(4)], rx_state[`IDX(5)], rx_state[`IDX(6)]);
+        maj_w <= maj(rx_state[`IDX(0)], rx_state[`IDX(1)], rx_state[`IDX(2)]);
+        s0_w <= s0(rx_w[63:32]);
+        s1_w <= s1(rx_w[479:448]);
+        
+	
+	    // Cycle 2: Do the remaining work
 		tx_w[511:480] <= new_w;
-		tx_w[479:0] <= rx_w[511:32];
+		tx_w[479:0] <= intermediate_w[511:32];
 
-		tx_state[`IDX(7)] <= rx_state[`IDX(6)];
-		tx_state[`IDX(6)] <= rx_state[`IDX(5)];
-		tx_state[`IDX(5)] <= rx_state[`IDX(4)];
-		tx_state[`IDX(4)] <= rx_state[`IDX(3)] + t1;
-		tx_state[`IDX(3)] <= rx_state[`IDX(2)];
-		tx_state[`IDX(2)] <= rx_state[`IDX(1)];
-		tx_state[`IDX(1)] <= rx_state[`IDX(0)];
+		tx_state[`IDX(7)] <= intermediate_state[`IDX(6)];
+		tx_state[`IDX(6)] <= intermediate_state[`IDX(5)];
+		tx_state[`IDX(5)] <= intermediate_state[`IDX(4)];
+		tx_state[`IDX(4)] <= intermediate_state[`IDX(3)] + t1;
+		tx_state[`IDX(3)] <= intermediate_state[`IDX(2)];
+		tx_state[`IDX(2)] <= intermediate_state[`IDX(1)];
+		tx_state[`IDX(1)] <= intermediate_state[`IDX(0)];
 		tx_state[`IDX(0)] <= t1 + t2;
 	end
 
