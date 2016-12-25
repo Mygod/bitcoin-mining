@@ -35,13 +35,13 @@
     <Option Name="WTVcsLaunchSim" Val="0"/>
     <Option Name="WTRivieraLaunchSim" Val="0"/>
     <Option Name="WTActivehdlLaunchSim" Val="0"/>
-    <Option Name="WTXSimExportSim" Val="1"/>
-    <Option Name="WTModelSimExportSim" Val="1"/>
-    <Option Name="WTQuestaExportSim" Val="1"/>
-    <Option Name="WTIesExportSim" Val="1"/>
-    <Option Name="WTVcsExportSim" Val="1"/>
-    <Option Name="WTRivieraExportSim" Val="1"/>
-    <Option Name="WTActivehdlExportSim" Val="1"/>
+    <Option Name="WTXSimExportSim" Val="2"/>
+    <Option Name="WTModelSimExportSim" Val="2"/>
+    <Option Name="WTQuestaExportSim" Val="2"/>
+    <Option Name="WTIesExportSim" Val="2"/>
+    <Option Name="WTVcsExportSim" Val="2"/>
+    <Option Name="WTRivieraExportSim" Val="2"/>
+    <Option Name="WTActivehdlExportSim" Val="2"/>
     <Option Name="GenerateIPUpgradeLog" Val="TRUE"/>
     <Option Name="XSimRadix" Val="hex"/>
     <Option Name="XSimTimeUnit" Val="ns"/>
@@ -140,27 +140,10 @@
     <FileSet Name="hash_clk_gen" Type="BlockSrcs" RelSrcDir="$PSRCDIR/hash_clk_gen">
       <File Path="$PSRCDIR/sources_1/ip/hash_clk_gen/hash_clk_gen.xci">
         <FileInfo>
-          <Attr Name="AutoDisabled" Val="1"/>
           <Attr Name="UsedIn" Val="synthesis"/>
           <Attr Name="UsedIn" Val="implementation"/>
           <Attr Name="UsedIn" Val="simulation"/>
         </FileInfo>
-        <CompFileExtendedInfo CompFileName="hash_clk_gen.xci" FileRelPathName="mmcm_pll_drp_func_7s_pll.vh"/>
-        <CompFileExtendedInfo CompFileName="hash_clk_gen.xci" FileRelPathName="doc/clk_wiz_v5_3_changelog.txt"/>
-        <CompFileExtendedInfo CompFileName="hash_clk_gen.xci" FileRelPathName="hash_clk_gen_board.xdc"/>
-        <CompFileExtendedInfo CompFileName="hash_clk_gen.xci" FileRelPathName="mmcm_pll_drp_func_7s_mmcm.vh"/>
-        <CompFileExtendedInfo CompFileName="hash_clk_gen.xci" FileRelPathName="hash_clk_gen.xml"/>
-        <CompFileExtendedInfo CompFileName="hash_clk_gen.xci" FileRelPathName="hash_clk_gen.veo"/>
-        <CompFileExtendedInfo CompFileName="hash_clk_gen.xci" FileRelPathName="mmcm_pll_drp_func_us_mmcm.vh"/>
-        <CompFileExtendedInfo CompFileName="hash_clk_gen.xci" FileRelPathName="mmcm_pll_drp_func_us_pll.vh"/>
-        <CompFileExtendedInfo CompFileName="hash_clk_gen.xci" FileRelPathName="hash_clk_gen_clk_wiz.v"/>
-        <CompFileExtendedInfo CompFileName="hash_clk_gen.xci" FileRelPathName="hash_clk_gen.v"/>
-        <CompFileExtendedInfo CompFileName="hash_clk_gen.xci" FileRelPathName="hash_clk_gen.xdc"/>
-        <CompFileExtendedInfo CompFileName="hash_clk_gen.xci" FileRelPathName="hash_clk_gen_ooc.xdc"/>
-        <CompFileExtendedInfo CompFileName="hash_clk_gen.xci" FileRelPathName="hash_clk_gen_stub.v"/>
-        <CompFileExtendedInfo CompFileName="hash_clk_gen.xci" FileRelPathName="hash_clk_gen_stub.vhdl"/>
-        <CompFileExtendedInfo CompFileName="hash_clk_gen.xci" FileRelPathName="hash_clk_gen_sim_netlist.v"/>
-        <CompFileExtendedInfo CompFileName="hash_clk_gen.xci" FileRelPathName="hash_clk_gen_sim_netlist.vhdl"/>
       </File>
       <Config>
         <Option Name="TopModule" Val="hash_clk_gen"/>
@@ -200,9 +183,7 @@
     </Run>
     <Run Id="hash_clk_gen_synth_1" Type="Ft3:Synth" SrcSet="hash_clk_gen" Part="xc7a100tcsg324-1" ConstrsSet="hash_clk_gen" Description="Vivado Synthesis Defaults" Dir="$PRUNDIR/hash_clk_gen_synth_1" IncludeInArchive="true">
       <Strategy Version="1" Minor="2">
-        <StratHandle Name="Vivado Synthesis Defaults" Flow="Vivado Synthesis 2016">
-          <Desc>Vivado Synthesis Defaults</Desc>
-        </StratHandle>
+        <StratHandle Name="Vivado Synthesis Defaults" Flow="Vivado Synthesis 2016"/>
         <Step Id="synth_design"/>
       </Strategy>
       <GeneratedRun Dir="$PRUNDIR" File="gen_run.xml"/>
@@ -226,9 +207,7 @@
     </Run>
     <Run Id="hash_clk_gen_impl_1" Type="Ft2:EntireDesign" Part="xc7a100tcsg324-1" ConstrsSet="hash_clk_gen" Description="Default settings for Implementation." SynthRun="hash_clk_gen_synth_1" IncludeInArchive="false">
       <Strategy Version="1" Minor="2">
-        <StratHandle Name="Vivado Implementation Defaults" Flow="Vivado Implementation 2016">
-          <Desc>Default settings for Implementation.</Desc>
-        </StratHandle>
+        <StratHandle Name="Vivado Implementation Defaults" Flow="Vivado Implementation 2016"/>
         <Step Id="init_design"/>
         <Step Id="opt_design"/>
         <Step Id="power_opt_design"/>

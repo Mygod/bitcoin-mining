@@ -57,11 +57,11 @@ module fpgaminer_top (osc_clk, RxD, TxD, anode, segment, disp_switch);
 
 	//// PLL
 	wire hash_clk;
-	//`ifndef SIM
-	//   hash_clk_gen pll_blk(.clk_in(osc_clk), .clk_out(hash_clk));
-	//`else
+	`ifndef SIM
+	   hash_clk_gen pll_blk(.clk_in(osc_clk), .clk_out(hash_clk));
+	`else
 		assign hash_clk = osc_clk;
-	//`endif
+	`endif
 
 
 	//// Hashers
@@ -93,7 +93,7 @@ module fpgaminer_top (osc_clk, RxD, TxD, anode, segment, disp_switch);
 
    input 	     RxD;
    
-   serial_receive serrx (.clk(osc_clk), .RxD(RxD), .midstate(midstate_vw), .data2(data2_vw));
+   serial_receive serrx (.clk(hash_clk), .RxD(RxD), .midstate(midstate_vw), .data2(data2_vw));
    
 	//// Virtual Wire Output
 	reg [31:0] golden_nonce = 0;
@@ -101,7 +101,7 @@ module fpgaminer_top (osc_clk, RxD, TxD, anode, segment, disp_switch);
    wire 	   serial_busy;
    output 	   TxD;
 
-   serial_transmit sertx (.clk(osc_clk), .TxD(TxD), .send(serial_send), .busy(serial_busy), .word(golden_nonce));
+   serial_transmit sertx (.clk(hash_clk), .TxD(TxD), .send(serial_send), .busy(serial_busy), .word(golden_nonce));
    
 
 	//// Control Unit
@@ -182,7 +182,7 @@ module fpgaminer_top (osc_clk, RxD, TxD, anode, segment, disp_switch);
    // inverted signals, so 1111.. to turn it off
    assign segment = disp_switch? segment_data : {8{1'b1}};
    
-   raw7seg disp(.clk(osc_clk), .segment(segment_data), .anode(anode), .word({midstate_vw[15:0], data2_vw[15:0], golden_nonce}));
+   raw7seg disp(.clk(hash_clk), .segment(segment_data), .anode(anode), .word({midstate_vw[15:0], data2_vw[15:0], golden_nonce}));
    
 endmodule
 
