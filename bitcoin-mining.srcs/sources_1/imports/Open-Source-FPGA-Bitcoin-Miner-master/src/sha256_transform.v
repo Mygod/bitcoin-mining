@@ -25,6 +25,29 @@
 // A quick define to help index 32-bit words inside a larger register.
 `define IDX(x) (((x)+1)*(32)-1):((x)*(32))
 
+function [31:0] e0 (input [31:0] x);
+	e0 = {x[1:0],x[31:2]} ^ {x[12:0],x[31:13]} ^ {x[21:0],x[31:22]};
+endfunction
+
+function [31:0] e1 (input [31:0] x);
+	e1 = {x[5:0],x[31:6]} ^ {x[10:0],x[31:11]} ^ {x[24:0],x[31:25]};
+endfunction
+
+function [31:0] ch (input [31:0] x, y, z);
+	ch = z ^ (x & (y ^ z));
+endfunction
+
+function [31:0] maj (input [31:0] x, y, z);
+	maj = (x & y) | (z & (x | y));
+endfunction
+
+function [31:0] s0 (input [31:0] x);
+	s0 = {x[6:4] ^ x[17:15], {x[3:0], x[31:7]} ^ {x[14:0],x[31:18]} ^ x[31:3]};
+endfunction
+
+function [31:0] s1 (input [31:0] x);
+	s1 = {x[16:7] ^ x[18:9], {x[6:0],x[31:17]} ^ {x[8:0],x[31:19]} ^ x[31:10]};
+endfunction
 
 // Perform a SHA-256 transformation on the given 512-bit data, and 256-bit
 // initial state,
@@ -126,15 +149,12 @@ module sha256_digester (clk, k, rx_w, rx_state, tx_w, tx_state);
 	output reg [255:0] tx_state;
 
 
-	wire [31:0] e0_w, e1_w, ch_w, maj_w, s0_w, s1_w;
-
-
-	e0	e0_blk	(rx_state[`IDX(0)], e0_w);
-	e1	e1_blk	(rx_state[`IDX(4)], e1_w);
-	ch	ch_blk	(rx_state[`IDX(4)], rx_state[`IDX(5)], rx_state[`IDX(6)], ch_w);
-	maj	maj_blk	(rx_state[`IDX(0)], rx_state[`IDX(1)], rx_state[`IDX(2)], maj_w);
-	s0	s0_blk	(rx_w[63:32], s0_w);
-	s1	s1_blk	(rx_w[479:448], s1_w);
+	wire [31:0]    e0_w = e0(rx_state[`IDX(0)]),
+	               e1_w = e1(rx_state[`IDX(4)]),
+	               ch_w = ch(rx_state[`IDX(4)], rx_state[`IDX(5)], rx_state[`IDX(6)]),
+	               maj_w = maj(rx_state[`IDX(0)], rx_state[`IDX(1)], rx_state[`IDX(2)]),
+	               s0_w = s0(rx_w[63:32]),
+	               s1_w = s1(rx_w[479:448]);
 
 	wire [31:0] t1 = rx_state[`IDX(7)] + e1_w + ch_w + rx_w[31:0] + k;
 	wire [31:0] t2 = e0_w + maj_w;

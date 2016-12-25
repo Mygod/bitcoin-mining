@@ -60,15 +60,6 @@
           <Attr Name="UsedIn" Val="simulation"/>
         </FileInfo>
       </File>
-      <File Path="$PSRCDIR/sources_1/imports/Open-Source-FPGA-Bitcoin-Miner-master/src/sha-256-functions.v">
-        <FileInfo>
-          <Attr Name="ImportPath" Val="$PPRDIR/../../../Desktop/bitcoin_mining/bitcoin_mining.srcs/sources_1/imports/Open-Source-FPGA-Bitcoin-Miner-master/src/sha-256-functions.v"/>
-          <Attr Name="ImportTime" Val="1374073826"/>
-          <Attr Name="UsedIn" Val="synthesis"/>
-          <Attr Name="UsedIn" Val="implementation"/>
-          <Attr Name="UsedIn" Val="simulation"/>
-        </FileInfo>
-      </File>
       <File Path="$PSRCDIR/sources_1/imports/Open-Source-FPGA-Bitcoin-Miner-master/projects/Verilog_Xilinx_Port/sources/hdl/serial.v">
         <FileInfo>
           <Attr Name="ImportPath" Val="$PPRDIR/../../../Desktop/bitcoin_mining/bitcoin_mining.srcs/sources_1/imports/Open-Source-FPGA-Bitcoin-Miner-master/projects/Verilog_Xilinx_Port/sources/hdl/serial.v"/>
