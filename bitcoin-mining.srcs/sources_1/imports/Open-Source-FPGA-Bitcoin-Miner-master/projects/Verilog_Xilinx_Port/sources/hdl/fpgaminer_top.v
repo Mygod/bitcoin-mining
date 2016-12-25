@@ -21,6 +21,8 @@
 
 `timescale 1ns/1ps
 
+`define SIM
+
 module fpgaminer_top (osc_clk, RxD, TxD, anode, segment, disp_switch);
 
 	// The LOOP_LOG2 parameter determines how unrolled the SHA-256
@@ -88,7 +90,7 @@ module fpgaminer_top (osc_clk, RxD, TxD, anode, segment, disp_switch);
 
 
 	//// Virtual Wire Control
-	reg [255:0] midstate_buf = 0, data_buf = 0;
+	reg [255:0] midstate_buf = 256'b0, data_buf = 256'b0;
 	wire [255:0] midstate_vw, data2_vw;
 
    input 	     RxD;
