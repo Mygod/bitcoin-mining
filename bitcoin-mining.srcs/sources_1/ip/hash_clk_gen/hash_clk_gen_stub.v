@@ -1,7 +1,7 @@
 // Copyright 1986-2016 Xilinx, Inc. All Rights Reserved.
 // --------------------------------------------------------------------------------
 // Tool Version: Vivado v.2016.4 (lin64) Build 1733598 Wed Dec 14 22:35:42 MST 2016
-// Date        : Mon Dec 26 00:24:29 2016
+// Date        : Mon Dec 26 06:33:11 2016
 // Host        : mygod-dell running 64-bit Linux Mint 18 Sarah
 // Command     : write_verilog -force -mode synth_stub
 //               /home/mygod/Products/Vivado/bitcoin-mining/bitcoin-mining.srcs/sources_1/ip/hash_clk_gen/hash_clk_gen_stub.v
