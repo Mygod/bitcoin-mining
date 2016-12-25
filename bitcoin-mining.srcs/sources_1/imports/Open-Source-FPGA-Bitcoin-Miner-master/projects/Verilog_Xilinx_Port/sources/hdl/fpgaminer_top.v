@@ -21,7 +21,7 @@
 
 `timescale 1ns/1ps
 
-`define SIM
+// `define SIM
 
 module fpgaminer_top (osc_clk, RxD, TxD, anode, segment, disp_switch);
 

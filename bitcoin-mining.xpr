@@ -139,7 +139,6 @@
     <FileSet Name="hash_clk_gen" Type="BlockSrcs" RelSrcDir="$PSRCDIR/hash_clk_gen">
       <File Path="$PSRCDIR/sources_1/ip/hash_clk_gen/hash_clk_gen.xci">
         <FileInfo>
-          <Attr Name="AutoDisabled" Val="1"/>
           <Attr Name="UsedIn" Val="synthesis"/>
           <Attr Name="UsedIn" Val="implementation"/>
           <Attr Name="UsedIn" Val="simulation"/>

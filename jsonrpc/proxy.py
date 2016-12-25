@@ -42,7 +42,7 @@ class ServiceProxy(object):
             req = urllib_request.Request(self.service_url, data, headers)
             resp = urllib_request.urlopen(req)
             reason = resp.info().getheader('X-Reject-Reason')
-            if (reason): print('X-Reject-Reason:', reason)
+            if (reason): print 'X-Reject-Reason:', reason
         except IOError as e:
             if isinstance(e, urllib_error.HTTPError):
                 if e.code not in (

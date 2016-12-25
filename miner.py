@@ -92,7 +92,7 @@ class Writer(Thread):
                 work = bitcoin.getwork()['result']
                 self.block = work['data']
                 self.midstate = work['midstate']
-                print(work['target'])
+                # print(work['target'])
             except:
                 print("RPC getwork error", sys.exc_info()[0])
                 traceback.print_exc()
